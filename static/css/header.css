@@ -1,0 +1,248 @@
+header {
+    width: 100%;
+    height: auto;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+    background-color: white;
+}
+header .main  {
+    height: auto;
+    
+}
+header .main .content {
+    display: grid;
+    grid-template-columns: 3fr minmax(160px, 1fr);
+    
+}
+header .main .logo {
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+header .main .logo * {
+    line-height: 1;
+}
+
+header .main .logo img {
+    height: 96px;
+    width: 96px;
+    object-fit: contain;
+    object-position: center;
+}
+header .main .logo > div {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: column;
+    height: 96px;
+    margin-left: 16px;
+}
+header .main .logo > div .brand-name {
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-top: -4px;
+}
+header .main .logo > div .slogan {
+    color: var(--color-3);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-top: 4px;
+} 
+header .main .working-time {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column;
+}
+
+
+header .main .working-time * {
+    line-height: 1;
+}
+
+header .phones {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    background-color: var(--color-1);
+}
+
+header .phones .content {
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 72px;
+    grid-gap: 0px;
+}
+header .phones .content a {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    transition: background-color 0.2s ease-in-out;
+}
+
+header .phones .content a:hover {
+    background-color: var(--color-3);
+}
+
+
+header .phones .content a > div {
+    height: 48px;
+    width: 48px;
+    background-color: white;
+    margin-right: 16px;
+    margin-left: 16px;
+    border-radius: 4px;
+}
+
+header .phones .content a > div img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+}
+header .phones .content a > span {
+    color: white;
+}
+
+header .phones .content a > span.phone {
+    font-size: var(--h5);
+}
+
+
+@media(max-width: 960px) {
+    header .main .content {
+        display: grid;
+        grid-template-columns: 1fr 28vw;
+        
+    }
+    header .main .logo img {
+        height: 72px;
+        width: 72px;
+        object-fit: contain;
+        object-position: center;
+    }
+    
+    header .phones .content {
+        display: grid;
+        height: 100%;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 48px;
+        grid-gap: 0px;
+    }
+
+    header .phones .content a > div {
+        height: 32px;
+        width: 32px;
+        margin-right: 16px;
+        margin-left: 16px;
+    }
+}
+@media(max-width: 640px) {
+    header .main .content {
+        display: grid;
+        grid-template-columns: 1fr 36vw;
+        
+    }
+
+    header .main .content {
+        display: grid;
+        
+}
+    header .main .logo img {
+        height: 56px;
+        width: 56px;
+        object-fit: contain;
+        object-position: center;
+    }
+    header .main .logo > div {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        height: 72px;
+        margin-left: 16px;
+    }
+   
+    header .main .logo > div .brand-name {
+        margin-top: 0px;
+    }
+    header .main .logo > div .slogan {
+        margin-top: 2px;
+    } 
+    header .phones .content {
+        display: grid;
+        height: 100%;
+        width: 100%;
+        grid-template-columns: repeat(1, 1fr);
+        grid-auto-rows: 48px;
+        grid-column-gap: 0px;
+    }
+    header .phones .content a {
+        padding: 8px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    header .phones .content a > div {
+        height: 32px;
+        width: 32px;
+        margin-right: 8px;
+        margin-left: 0px;
+    }
+
+
+    header .phones .content a > span.phone {
+        font-size: var(--h3);
+    
+    }
+}
+
+
+.order-list {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 240px;
+    height: auto;
+    /* min-height: 80px; */
+    background-color: white;
+    border-radius: 8px;
+    top: 16px;
+    right: 16px;
+    box-shadow: 0 4px 16px rgba(33, 54, 132, 0.26);
+    z-index: 1000;
+    padding: 16px;
+    border: 2px solid var(--color-1);
+}
+
+.order-list ul {
+    font-size: var(--h6);
+    font-weight: 400;
+    text-align: left;
+}
+.order-list ul li {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+    .order-list ul {
+        font-size: var(--h5);
+    }
+    .order-list {
+       
+        top: auto;
+        right: 8px;
+        bottom: 8px;
+        width: calc(75% - 16px);
+      
+    }
+}

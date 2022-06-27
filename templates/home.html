@@ -1,0 +1,513 @@
+{% extends 'base.html' %}
+{% load static %}
+<!-- Content -->
+{% block content %}
+    <div class="main-screen">
+        <!-- Background -->
+        <div class="background">
+            <div class="gradient">
+                <div class="content">
+                    <img src="{% static 'img/main_photo.png' %}" alt="">
+                </div>
+            </div>
+            <div class="solid"></div>
+        </div>
+        <!-- Info -->
+        <div class="content">
+            <div class="info">
+                <h1 class="upper extra-bold">Вывоз мусора, переезды и грузоперевозки</h1>
+                <h2 class="upper semibold color-1 h4">Качество и пунктуальность проверенные веременем</h2>
+            </div>
+            <button onclick="MainButton()" class="order-btn h3 upper white semibold">Заказать машину</button>
+        </div>
+        {% if comments|length %}
+        <div class="reviews-rate__outer" onclick="showComments()">
+            <div class="reviews-rate__wrapper content">
+                <div class="reviews-rate">
+                    <img  class="star ico"src="{% static 'img/ico/star.png' %}" alt="star">
+                    <span class="rate">{{ comments_avg }}</span>
+                    <span class="review-qty">отзвов: {{ comments|length }} </span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        <!-- Main services -->
+        <div id="main_services_block" class="input-wrapper form-block mt80" data-empty=true data-requirder=true data-type="radio" data-name="Услуга" data-alert="Выберите тип услуги">
+            <div class="content">
+                <p class="title h1 bold upper center">Что Вы планируете делать?</p>
+                <p class="subtitle h3 bold upper center color-1 mt8 pb32">Выберите тип услуги котрый Вас интреесует</p>
+                <span class="alert"></span>
+                <div class="options mt32">
+                    {% for service in main_service %}
+                    <label for="main_{{ service.id }}" class="option-outer">
+                        <input id="main_{{ service.id }}" name="main" type="radio" data-name="{{ service.name }}">
+                        <div class="option">
+                            <div class="image">
+                                <img src="{{ service.image_l.url }}" alt="{{ service.slug }}">
+                            </div>
+                            <div class="info">
+                                <p class="title">{{ service.name }}</p>
+                            </div>
+                        </div>
+                        <div class="round-checkbox"></div>
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ORDER OPTIONS -->
+
+    <div class="order-options" id="content">
+        {% for group in service_group %}
+        <div class=" form-block mt80" data-name="{{ group.name }}" >
+            <div id="{{ group.slug }}_block" class="input-wrapper content" data-type="{% if group.counter %}counter{% else %}radio{% endif %}" data-name="{{ group.name }}" data-alert='Пожалуйса, выберите {{ group.name|lower }}'>
+                <p class="title h2 bold upper center">{{ group.title }}</p>
+                <p class="subtitle h4 semibold upper center color-1 mt8 pb16">{{ group.subtitle }}</p>
+                <span class="alert red center"></span>
+                <div class="options pt16">
+
+                    {% for service in group.service.all %}
+                    <label for="option_{{ service.id }}_{{ group.id }}" class="option-outer">
+                        {% if group.counter %}
+                            <!-- Counter -->
+                            <input id="option_{{ service.id }}_{{ group.id }}" name="{{ service.slug }}"  
+                            {% if service.blank %}type="checkbox"{% else %}}type="text"{% endif %}  
+                            data-name="{{ service.name }}" value="0">
+                        {% else %}
+                            <!-- Radio -->
+                            <input id="option_{{ service.id }}_{{ group.id }}" name="{{ group.slug }}"   type="radio" data-name="{{ service.name }}">
+                        {% endif %}
+
+                        <div class="option">
+                            <div class="image">
+                                <img src="{{ service.image_l.url }}" alt="{{ service.slug }}">
+                            </div>
+                            <div class="info">
+                                <p class="title h3 semibold">{{ service.name }}</p>
+                                
+                                {% if service.blank == False %}
+                                    <p class="h5 subtitle medium color-1">{{ service.subtitle }}</p>
+                                    <p class="price h5 upper semibold color-3">{{ service.price }} грн. / {{ service.unit.name }}</p>
+                                {% endif %}
+                                
+                                {% if group.counter and service.blank == False %}
+                                    <div class="counter">
+                                        <button onclick="Counter(this)" data-action='minus'>-</button>
+                                        <span>0</span>
+                                        <button onclick="Counter(this)" data-action='plus'>+</button>
+                                    </div>
+                                    
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if group.counter == False%}
+                            <div class="round-checkbox"></div>
+                        {% endif %}
+                    </label>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- ORDER FORM -->
+
+    <div class="order-form">
+        <div class="form-block personal-info mt80" data-name='Персональная информация'>
+           
+            <div class="content">
+                <p class="title h2 bold upper center">Завершение заказа</p>
+                <p class="subtitle h3 bold upper center color-1 mt8">Введите ваши контактные данные</p>
+                <div class="form mt32">
+                    <p id="client_name_wrapper" class="input-wrapper" data-name="Имя" data-empty=true data-requirder=true data-type="text" data-alert="Введите Ваше имя">
+                        <span class="alert"></span>
+                        <label for="">Ваше имя <span class="red">*</span></label>
+                        <input class="customer_info" type="text" name="name" placeholder="Имя" required>
+                    </p>
+                    <p id="client_phone_wrapper" class="input-wrapper" data-name="Номер телефона" data-empty=true data-requirder=true data-type="text" data-alert="Введите Ваш номер телефона">
+                        <span class="alert"></span>
+                        <label for="">Номер телефона<span class="red">*</span></label>
+                        <input class="customer_info" type="text" name="phone" placeholder="+38 (000) 000 00 00" required>
+                    </p>
+                    <!-- Adress -->
+                    <p id="client_adress_wrapper" class="input-wrapper col-2" data-name="Адрес" data-empty=true data-requirder=true data-type="text" data-alert="Введите адрес подачи машины">
+                        <span class="alert"></span>
+                        <label for="">Адрес (Киев) <span class="red">*</span></label>
+                        <input class="customer_info" type="text" name="adress" placeholder="Адрес" required>
+                    </p>
+                    
+                    <!-- Comment -->
+                    <p id="client_comment_wrapper" class="input-wrapper col-2" data-name="Комментарий" data-empty=true data-requirder=true data-type="text" data-alert="Оставите комментарий">
+                        <span class="alert"></span>
+                        <label for="">Комментарий</label>
+                        <input class="customer_info" type="text" name="comment" placeholder="Ваш комментарий">
+                    </p>
+
+                    <div id="delivery_time_wrapper" class="input-wrapper set_time col-2 mt32" data-empty=true data-requirder=true data-type="radio" data-name="Время" data-alert='Пожалуйса, выберите удобное для Вас время'>
+                        <p class="subtitle h3 bold upper center color-1 mt8">Выберите удобное для Вас время</p>
+                        <span class="alert"></span>
+                        <div class="data mt32">
+                            <label for="time_1">
+                                <input type="radio" data-name="Днем с 12:00 до 16:00" name="time" id="time_1" >
+                                <span class="h5">Утром с 8:00 до 12:00</span>
+                                
+                            </label>
+    
+                            <label for="time_2">
+                                <input type="radio" data-name="Днем с 12:00 до 16:00" name="time" id="time_2">
+                                <span class="h5">Днем с 12:00 до 16:00</span>
+                                
+                            </label>
+    
+                            <label for="time_3">
+                                <input type="radio" data-name="Вечером с 16:00 до 20:00" name="time" id="time_3">
+                                <span class="h5">Вечером с 16:00 до 20:00</span>
+                                
+                            </label>
+    
+                            <label for="time_4">
+                                <input type="radio" data-name="Ночью с 20:00 до 00:00" name="time" id="time_4">
+                                <span class="h5">Ночью с 20:00 до 00:00</span>
+                                
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Order date -->
+                    <div id="delivery_date_wrapper" class="input-wrapper set_date col-2 mt32" data-name="Дата" data-empty=true data-requirder=true data-type="text" data-alert='Выберите дату'>
+                        <p class="subtitle h3 bold upper center color-1 mb16">Выберите дату на календаре</p>
+                        <span class="alert"></span>
+                        <div class="data">
+                            {% include 'form__date.html' %}
+                        </div>
+                    </div>
+
+                    <!-- Finish order -->
+                    <div class="content col-2" id="finish_order">
+                        <p class="h2 upper bold green mt32 mb16 center">Ваш заказ</p>
+                        <ul id="order-options">
+                            
+                        </ul>
+                        <button onclick="ConfirmOrder()" class="order_confirm mt32">Подтведить заказ</button>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            
+            
+        </div>
+        
+    </div>
+
+    <div class="reviews" id="comments">
+        <div class="content">
+            <p class="title h2 center upper bold pb32">Отзывы нащих клиентов</p>
+            {% if comments|length %}
+            <ul class="comments_list">
+               {% for comment in comments %}
+                 {% include 'comments/comment__object.html' %}
+               {% endfor %}
+            </ul>
+            {% else %}
+                <p class="grey h3 medium center">Пока нету комментариев</p>
+            {% endif %}
+
+            {% include 'comments/comment__form.html' %}
+    </div>
+
+
+
+<script src="{% static 'js/xhr.js' %}"></script>
+<script>
+    function showComments() {
+        document.getElementById('comments').scrollIntoView({ block: 'start',  behavior: 'smooth' }); 
+    }
+
+</script>
+<script>
+    const orderOptions = document.getElementById('order-options')
+    const inputWrapper = document.querySelectorAll('.input-wrapper')
+    var emptyWrapers = document.querySelectorAll("[data-empty=true]")
+    var OrderValidate = false
+
+    // Counter
+    function Counter(obj) {
+        let input = obj.parentNode.querySelector('span')
+        let value = parseInt(input.innerHTML)
+        if (obj.dataset.action =='plus') {
+            input.innerHTML = value + 1
+        } 
+        if (obj.dataset.action =='minus' && value > 0) {
+            input.innerHTML = value - 1
+        } 
+
+        inst = obj.parentNode
+        count = 0
+        while (inst.tagName != 'LABEL') {
+            count += 1
+            inst = inst.parentNode
+            if (count > 20) {break}
+        }
+
+        let option = inst.querySelector('.option') 
+        if (parseInt(input.innerHTML) > 0) {
+            option.classList.add('active')
+        } else {
+            option.classList.remove('active')
+        }
+        
+        
+        qty = inst.querySelector('input')
+        document.getElementById(qty.id).value = input.innerHTML
+        document.getElementById(qty.id).defaultValue = input.innerHTML
+        Upadateorder()
+    } 
+
+    function GetInputWrapper(input) {
+        inst = input.parentNode
+        count = 0
+        while (inst.classList.contains('input-wrapper') != true) {
+            count += 1
+            inst = inst.parentNode
+            if (count > 20) {break}
+        }
+        return inst
+    }
+
+
+    function Upadateorder() {
+        var emptyBloksIDs = []
+        var emptyBloksAll = []
+
+        // Check radios
+        function GetRadioPrent(key) {
+            let elem = document.querySelector('input[name="' + key + '"][type="radio"]')
+            let div = elem
+            let count = 0
+            while (div.classList.contains('input-wrapper') != true) {
+                count += 1
+                div = div.parentNode
+                if (count > 15) {
+                    break
+                }
+            }
+            return div
+        }
+
+        // console.clear()
+        orderOptions.innerHTML = ''
+        function UpdateOrderList(blcokName, checked) {
+            let li = document.createElement("li");
+            
+            if (checked.length > 0) {
+                // block
+                let block = document.createElement("span");
+                let blockText = document.createTextNode(blcokName + ': ');
+                block.appendChild(blockText)
+                block.classList.add('blockName')
+                li.appendChild(block)
+                // checked
+                let value = document.createElement("span");
+                let valueText = document.createTextNode(checked.join(', ') + ';');
+                value.appendChild(valueText)
+                value.classList.add('green')
+                value.classList.add('checkedOptions')
+                li.appendChild(value)   
+
+                orderOptions.appendChild(li)
+            }
+            
+        }
+
+        function BlockRadio(block) {
+            let inputs = Array.from(block.querySelectorAll('input'))
+            let checked = []
+            inputs.forEach(input => {
+                if (input.checked == true) {
+                    checked.push(input.dataset.name)
+                } 
+            });
+            if (checked.length > 0) {
+                block.dataset.empty = false
+            } else {
+                block.dataset.empty = true
+            }
+            UpdateOrderList(block.dataset.name, checked)
+        }
+        
+        function BlockCounter(block) {
+            let inputs = Array.from(block.querySelectorAll('input'))
+            let checked = []
+            inputs.forEach(input => {
+                if (parseInt(input.value) > 0) {
+                    checked.push(input.value + ' ' + input.dataset.name)
+                } 
+            });
+            UpdateOrderList(block.dataset.name, checked)
+        }
+
+        function BlockText(block) {
+            let input = block.querySelector('input')
+            checked = []
+            if (input.value == undefined || input.value.length == 0) {
+                if (input.required == true) {
+                    emptyBloksIDs.push(block.id)
+                    block.dataset.empty = true
+                }
+
+                emptyBloksAll.push(block.id)
+            } else {
+                checked.push(input.value)
+                block.dataset.empty = false
+            }
+            
+            UpdateOrderList(block.dataset.name, checked)
+        }
+
+
+        // Iterate input wrappers
+        for (let i = 0; i < inputWrapper.length; i++) {
+            let block = inputWrapper[i];
+
+            if (block.dataset.type == 'radio') {
+                BlockRadio(block);
+            } else if (block.dataset.type == 'counter') {
+                BlockCounter(block)
+            } else if (block.dataset.type == 'text') {
+                BlockText(block)
+            } else {
+                alert('no block type')
+            }
+
+        }
+        emptyWrapers = document.querySelectorAll("[data-empty=true]")
+
+    }
+
+
+
+function CheckAlerts() {
+    for (let i = 0; i < inputWrapper.length; i++) {
+        let wraper = inputWrapper[i];
+        let alert = wraper.querySelector('.alert')
+        alert.innerHTML = ''
+        alert.classList.remove('active')
+    }
+    for (let i = 0; i <  emptyWrapers.length; i++) {
+        let div =  emptyWrapers[i];
+        let alert = div.querySelector('.alert')
+        alert.innerHTML = div.dataset.alert
+        alert.classList.add('active')
+    }
+}
+
+
+
+var inputsAll = document.querySelectorAll('input')
+var inputsWrapersIds = []
+for (let i = 0; i < inputWrapper.length; i++) {
+    let wrapper = inputWrapper[i];
+    inputsWrapersIds.push(wrapper.id)
+}
+
+function ConfirmOrder() {
+    OrderValidate = true
+    Upadateorder()
+    CheckAlerts()
+    
+    if (emptyWrapers.length > 0) {
+        emptyWrapers[0].scrollIntoView(); 
+    } else {
+        // document.getElementById('finish_order').scrollIntoView(); 
+        OrderToJSON()
+    }
+}
+
+function MainButton() {
+    if (emptyWrapers.length > 0) {
+        emptyWrapers[0].scrollIntoView({ block: 'start',  behavior: 'smooth' }); 
+    } else {
+        document.getElementById('finish_order').scrollIntoView({ block: 'start',  behavior: 'smooth' }); 
+    }
+}
+
+
+document.getElementById('delivery_date_wrapper').addEventListener('click', function() { Upadateorder() })
+
+
+
+var empty = document.querySelectorAll("[data-empty=true]")
+var inputWrapperIDs = []
+for (let i = 0; i < inputWrapper.length; i++) {
+    inputWrapperIDs.push(inputWrapper[i].id);
+}
+
+
+var inputs = document.querySelectorAll('input')
+for (let i = 0; i < inputs.length; i++) {
+    let input = inputs[i];
+    input.addEventListener('change', function() {
+        let wrapper = GetInputWrapper(input)
+        num =  inputWrapperIDs.indexOf(wrapper.id) + 1
+       
+        function ScrollTo() {
+            if (OrderValidate == true) {
+                CheckAlerts()
+                document.querySelectorAll("[data-empty=true]")[0].scrollIntoView(); 
+            } else {
+                document.getElementById(inputWrapperIDs[num]).scrollIntoView({ block: 'start',  behavior: 'smooth' }); 
+            }
+           
+        }
+        setTimeout(ScrollTo, 400);
+        Upadateorder()
+    })
+}
+
+
+
+
+
+function crushTest() {
+    var inputWrapper = document.querySelectorAll('.input-wrapper')
+    for (let i = 0; i < inputWrapper.length; i++) {
+        let el = inputWrapper[i];
+        if (el.dataset.alert == undefined) {
+            alert('No input wrapper alert text')
+            el.scrollIntoView()
+        }
+        if (el.querySelectorAll('.alert').length == 0) {
+            alert('No input wrapper alert div')
+            el.scrollIntoView()
+        }
+        
+    }  
+}
+crushTest()
+
+
+
+
+
+function OrderToJSON() {
+    let options = []
+    let optionsList = Array.prototype.slice.call(orderOptions.querySelectorAll('li'))
+    optionsList.forEach(option => {
+        let blockName = option.querySelector('.blockName')
+        let checkedOptions = option.querySelector('.checkedOptions')
+        options.push(blockName.innerHTML + checkedOptions.innerHTML) 
+    });
+    let data = JSON.stringify(options);
+    let response = XHR(method="POST", url='{% url "core:order" %}', data)
+    if ('url' in response) {
+        window.location.href = response['url']
+    }
+}
+
+</script>
+{% endblock %}

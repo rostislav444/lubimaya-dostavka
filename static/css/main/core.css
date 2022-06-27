@@ -1,0 +1,165 @@
+
+body {
+   width: 100%;
+   display: block;
+   max-width: 1920px;
+   min-width: 240px;
+   margin: auto;
+}
+
+::selection {
+   background: var(--color-4); /* WebKit/Blink Browsers */
+ }
+ ::-moz-selection {
+   background: var(--color-4); /* Gecko Browsers */
+ }
+
+.content {
+   position: relative;
+   width: calc(100% - 48px);
+   margin: 0 auto;
+   max-width: 1140px;
+}
+
+@media(max-width: 640px) {
+   .content {
+      width: calc(100% - 16px);
+   }
+  
+}
+
+.block   {display: block;}
+.flex {
+   display: flex;
+   justify-content: flex-start;
+   align-items: center;
+}
+.inlineblock {display: inline-block;}
+.grid    {display: grid;}
+.none    {display: none;}
+.pointer {cursor: pointer;}
+.left {float: left;}
+.right {float: right;}
+.disabled {
+   opacity: 0.25;
+   pointer-events: none;
+}
+
+.form {
+   display: grid;
+   grid-auto-columns: auto;
+   grid-gap: 16px;
+   grid-template-columns: repeat(2, 1fr);
+}
+
+.form > p {
+   display: flex;
+   flex-direction: column;
+   text-align: left;
+}
+
+.form > .col-2 {
+   grid-column-start: 1;
+   grid-column-end: 3;
+}
+@media(max-width: 640px) {
+   .form > p,
+   .form > div {
+      grid-column-start: 1;
+      grid-column-end: 3;
+   }
+}
+
+
+
+
+.form > p input,
+.form > p select,
+.form > p textarea {
+   border: 3px solid var(--color-2);
+   padding: 10px 16px;
+   border-radius: 8px;
+   transition: border 0.2s ease-in-out;
+}
+
+.form > p label {
+   display: block;
+   margin-bottom: 16px;
+}
+.form > p input:hover,
+.form > p select:hover,
+.form > p textarea:hover {
+   border: 3px solid var(--color-4);
+}
+.form > p input:focus,
+.form > p select:focus,
+.form > p textarea:focus { 
+   border: 3px solid var(--color-1);
+}
+
+.form > p select {
+   width: 100%;
+   overflow-x: hidden;
+}
+
+
+.counter {
+   width: 136px;
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   grid-gap: 8px;
+   height: 40px;
+   margin-top: 16px;
+}
+
+@media (max-width: 960px) {
+   .counter {
+      width: 112px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 8px;
+      height: 32px;
+      margin-top: 8px;
+      font-size: var(--h5);
+   }
+}
+
+.counter button {
+   border: none;
+   border-radius: 4px;
+   background-color: var(--color-4);
+   cursor: pointer;
+   transition: all 0.1s ease-in-out;
+}
+.counter button:hover {
+   background-color: var(--color-2);
+}
+.counter button:active {
+   background-color: var(--color-1);
+}
+
+.counter span {
+   border: none;
+   background-color: #ededed;
+   border-radius: 4px;
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+}
+
+.input-wrapper .alert {
+   display: none;
+}
+.input-wrapper .alert.active {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   text-align: center;
+   color: red;
+}
+.input-wrapper > .alert.counter {
+   text-align: center;
+   justify-content: center;
+}

@@ -1,0 +1,44 @@
+{% load static %}
+{% load i18n %}
+<!-- LINKS -->
+{% block links %}
+<link rel="stylesheet" href="{% static 'css/shop/product/product__comments.css' %}">
+<link rel="stylesheet" href="https://unpkg.com/flexmasonry/dist/flexmasonry.css">
+<script src="https://unpkg.com/flexmasonry/dist/flexmasonry.js"></script>
+{% endblock %}
+<div class="comments__wrapper">
+    {% if not product.reviews.all %}
+        <div class="wrapper">
+            <p class="grey pt24 pb4">{% trans 'Пока нету отзывов' %}</p>
+        </div>
+    {% else %}
+    <div class="comments mt32" itemprop="review" itemscope itemtype="http://schema.org/Review">
+        {% include './comments__list.html' %}
+    </div>
+    {% endif %}
+    <div class="preloader" id="comment__preloader">
+        <img src="{% static 'img/preloader.gif' %}" alt="preloader">
+    </div>
+</div>
+
+<!-- POP UP COMMENTS FORMS -->
+{% include './comment__form.html' %}
+
+<!-- JS -->
+{% block js %}
+<script>
+// function Masonry() {
+//     FlexMasonry.init('.comments', {
+//     breakpointCols: {
+//         // 'min-width: 1500px': 5,
+//         // 'min-width: 1200px': 4,
+//         'min-width: 960px': 2,
+//         'min-width: 576px': 1,
+//     },
+//     responsive: true,
+//     numCols: 3
+// });
+// }
+// Masonry()
+</script>
+{% endblock %}

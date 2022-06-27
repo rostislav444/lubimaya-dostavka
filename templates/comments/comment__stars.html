@@ -1,0 +1,18 @@
+{% load static %}
+<div class="stars" itemprop="reviewRating" itemscope itemtype="http://schema.org/Rating">
+    <meta itemprop="ratingValue" content="{{ comment.stars }}">
+    {% if    comment.stars > 4 and comment.stars <= 5 %}
+        <img src="{% static 'img/stars-5.png' %}" alt="stars">
+    {% elif  comment.stars > 3 and comment.stars <= 4 %}
+        <img src="{% static 'img/stars-4.png' %}" alt="stars">
+    {% elif  comment.stars > 2 and comment.stars <= 3 %}
+        <img src="{% static 'img/stars-3.png' %}" alt="stars">
+    {% elif  comment.stars > 1 and comment.stars <= 2 %}
+        <img src="{% static 'img/stars-2.png' %}" alt="stars">
+    {% elif  comment.stars > 0 and comment.stars <= 1 %}
+        <img src="{% static 'img/stars-1.png' %}" alt="stars">
+    {% elif  comment.stars == 0 %}
+        <img src="{% static 'img/stars-0.png' %}" alt="stars">
+    {% endif %}
+    
+</div>

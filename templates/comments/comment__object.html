@@ -1,0 +1,16 @@
+{% load static %}
+
+<li class="comment__object">
+    <div class="stars">
+        {% for star in comment.rating %}
+            {% if star == 0 %}
+                <img src="{% static 'img/ico/star.png' %}" alt="*">
+            {% else %}
+                <img src="{% static 'img/ico/star_empty.png' %}" alt="*">
+            {% endif %}
+        {% endfor %}
+    </div>
+    <p class="name h5">{{ comment.name }}</p>
+    <p class="date grey h6">{{ comment.datetime|date:"H:i d.M.Y" }}</p>
+    <p class="text regular h5">{{ comment.text }}</p>
+</li>

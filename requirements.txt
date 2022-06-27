@@ -1,0 +1,15 @@
+wheel==0.37.1
+Django==2.2.10
+django-appconf==1.0.3
+django-cleanup==4.0.0
+django-compressor==2.4
+pytz==2019.3
+rcssmin==1.0.6
+rjsmin==1.1.0
+six==1.14.0
+sqlparse==0.3.1
+Unidecode==1.1.1
+Pillow==9.1.1
+
+
+

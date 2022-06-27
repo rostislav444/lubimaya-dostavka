@@ -1,0 +1,629 @@
+.main-screen {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.main-screen .background {
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: -1;
+}
+
+.main-screen .background .gradient{
+    position: relative;
+    display: block;
+    width: 100%;
+    height: calc(100% - 200px);
+    background: linear-gradient(-24deg, #c8d0e7, #fff);
+}
+.main-screen .background .solid{
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 200px;
+    background-color:#fff;
+}
+.main-screen .background .gradient .content {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+.main-screen .background .gradient .content img {
+    margin-top: 80px;
+    width: auto;
+    max-width: 55%;
+}
+.main-screen .info {
+    position: relative;
+    max-width: 480px;
+}
+.main-screen .info h1 {
+    position: relative;
+    display: block;
+    padding-top: 112px;
+}
+
+.order-btn {
+    margin-top: 24px; 
+    border-radius: 8px;
+    background: -moz-linear-gradient( -90deg,    rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    background: -webkit-linear-gradient( -90deg, rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    background: -ms-linear-gradient( -90deg,     rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    padding: 12px 48px;
+    border: 2px solid rgb(249,105,14);
+    
+    cursor: pointer;
+    transition: margin 0.1s ease-in-out;
+}
+.order-btn:active{
+    margin-top: 38px; 
+    margin-bottom: -2px;;
+    
+}
+.order-btn:hover {
+    background: -moz-linear-gradient( 90deg,    #36d55d 0%, #25ad65 100%);
+    background: -webkit-linear-gradient( 90deg, #36d55d 0%, #25ad65 100%);
+    background: -ms-linear-gradient( 90deg,     #36d55d 0%, #25ad65 100%);
+    border: 2px solid #25ad65;
+}
+.reviews-rate__wrapper {
+    display: flex;
+    justify-content: center;
+} 
+/* Reviews rate */
+.reviews-rate {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    padding: 16px 24px;
+    border-radius: 8px;
+    margin-top: 200px;
+    border: 2px solid white;
+    
+    cursor: pointer;
+    transition: 
+        border 0.4s ease-in-out,
+        box-shadow 0.2s ease-in-out
+    ;
+}
+.reviews-rate:hover {
+    border: 2px solid var(--color-4);
+}
+
+.reviews-rate .star {
+    width: 24px;
+    height: 24px;
+    margin-right: 4px;
+}
+.reviews-rate .rate {
+    color: #ffea00;
+    margin-right: 8px;
+}
+
+/* Form block */
+.form-block .options {
+    display: flex;
+    flex-wrap: wrap;
+}
+.form-block .options .option {
+    margin: 8px;
+}
+.form-block .options .option .image {
+    position: relative;
+    width: 100%;
+    height: 45vw;
+    
+}
+
+.form-block .options .option-outer {
+    display: flex; 
+    position: relative;
+    flex-grow: 1;
+    width: calc(33% - 24px);
+    height: auto;
+    cursor: pointer;
+}
+
+.form-block .options .option-outer > input {
+    display: none;
+}
+
+.form-block .options .option-outer .option {
+    top: 0;
+    width: 100%;
+    border: 3px solid var(--color-2);
+    background-color: white;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+
+.main-screen .form-block .options .option-outer {
+    width: calc(25% - 24px);
+}
+
+
+.form-block .options .option-outer > input {
+    display: none;
+}
+
+.form-block .options .option-outer .option {
+    top: 0;
+    width: 100%;
+    border: 3px solid var(--color-2);
+    background-color: white;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+
+.form-block .options .option .image {
+    position: relative;
+    width: 100%;
+    height: 232px;
+}
+.form-block .options .option .image img {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    object-position: center;
+   
+}
+
+
+
+/* .form-block .options .option:active {
+    border: 3px solid var(--color-3);
+    background-color: var(--color-4);
+} */
+
+.form-block .options .option-outer input[type=radio]:checked ~ .option {
+    border: 3px solid var(--color-3);
+    /* background-color: var(--color-4); */
+    background: -moz-linear-gradient( -90deg,    rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    background: -webkit-linear-gradient( -90deg, rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    background: -ms-linear-gradient( -90deg,     rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+}
+
+
+.option.active {
+    border: 3px solid var(--color-3);
+    /* background-color: var(--color-4) !important; */
+    background: -moz-linear-gradient( -90deg,    rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    background: -webkit-linear-gradient( -90deg, rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    background: -ms-linear-gradient( -90deg,     rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    color: white !important;
+    border: 3px solid var(--color-3) !important;
+}
+
+.option.active .price,
+.option.active .title {
+    color: white;
+}
+
+.option.active .subtitle {
+    color: black;
+}
+
+
+
+.form-block .options .option-outer input:checked ~ .option .price,
+.form-block .options .option-outer input:checked ~ .option .title {
+    color: white;
+}
+.form-block .options .option-outer input:checked ~ .option .subtitle {
+    color: black;
+}
+.form-block .options .option .info {
+    width: calc(100% - 16px);
+    height: auto;
+    padding: 16px 16px;
+}
+
+.form-block .options .option .info .title {
+    font-size: var(--h4);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.form-block .round-checkbox {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: white;
+    border: 3px solid var(--color-2);;
+    z-index: 1000;
+    transition: all 0.2s ease-in-out;
+}
+
+
+.form-block .options .option-outer input[type=radio]:checked ~ .round-checkbox {
+    border: 3px solid white;
+    background-color: #25ad65;
+}
+
+.form-block .options .option:hover,
+.form-block .options .option:hover ~ .round-checkbox {
+    border: 3px solid var(--color-4) !important;
+}
+
+/* ORDER FORM */
+
+.order-form .content {
+    max-width: 960px;
+}
+
+
+.order-form .set_time .data {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+.order-form .set_time .data label {
+    position: relative;
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 48px;
+    width: calc(50% - 24px);
+    margin: 8px;
+}
+
+@media (max-width: 640px) {
+    .order-form .set_time .data label {
+        width: 100%;
+    }
+}
+
+
+
+.order-form .set_time .data label > span {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border: 3px solid var(--color-2);
+    background-color: white;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+.order-form .set_time .data label > input {
+    display: none;
+}
+.order-form .set_time .data label:hover span {
+    border: 3px solid var(--color-4);
+}
+.order-form .set_time .data label input:checked ~ span {
+    border: 3px solid var(--color-3);
+    background-color: var(--color-4);
+}
+
+.set_date .data{
+    position: relative;
+    width: 100%;
+    max-width: 640px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+}
+
+.date-picked input {
+    border: 3px solid var(--color-4);
+    height: 4;
+} 
+
+.order_confirm {
+    padding: 24px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    background: -moz-linear-gradient( -90deg,    rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    background: -webkit-linear-gradient( -90deg, rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    background: -ms-linear-gradient( -90deg,     rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    
+    color: white;
+    font-size: var(--h3);
+    text-transform: uppercase;
+}
+
+.order_confirm:hover {
+    background: -moz-linear-gradient( 90deg,    #36d55d 0%, #25ad65 100%);
+    background: -webkit-linear-gradient( 90deg, #36d55d 0%, #25ad65 100%);
+    background: -ms-linear-gradient( 90deg,     #36d55d 0%, #25ad65 100%);
+}
+
+
+.reviews {
+    width: 100%;
+    
+    background: -moz-linear-gradient( 55deg,    #f4f5fa 0%, #d9dfef 100%);
+    background: -webkit-linear-gradient( 55deg, #f4f5fa 0%, #d9dfef 100%);
+    background: -ms-linear-gradient( 55deg,     #f4f5fa 0%, #d9dfef 100%);
+
+    height: auto;
+    margin-top: 64px;
+}
+
+.reviews .title {
+    display: block;
+    padding-top: 64px;
+}
+.reviews ul {
+    margin-top: 32px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 24px;
+}
+
+.reviews ul li .stars {
+    grid-area: reviews__stars; 
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+.reviews ul li .name  {
+    grid-area: reviews__name ; 
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.reviews ul li .date  {
+    grid-area: reviews__date ; 
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+}
+.reviews ul li .text  {grid-area: reviews__text ;}
+
+
+.reviews ul li {
+    height: auto;
+    border: 3px solid var(--color-1);
+    background-color: white;
+    border-radius: 8px;
+    padding: 24px;
+    display: grid;
+    grid-gap: 8px;
+    grid-template-columns: 140px auto 136px;
+    grid-template-rows: 24px auto;
+    
+    grid-template-areas: 
+        "reviews__stars reviews__name  reviews__date"
+        "reviews__text  reviews__text  reviews__text"
+    ;
+} 
+
+.reviews  .comment_form__wrapper {
+    padding-bottom: 24px;
+}
+.reviews  .comment_form__wrapper form {
+    border: 3px solid var(--color-1);
+    background-color: white;
+    border-radius: 8px;
+    padding: 24px;
+}
+
+
+.comment_confirm{
+    padding: 24px;
+    width: 100%;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    background: -moz-linear-gradient( 90deg,    #36d55d 0%, #25ad65 100%);
+    background: -webkit-linear-gradient( 90deg, #36d55d 0%, #25ad65 100%);
+    background: -ms-linear-gradient( 90deg,     #36d55d 0%, #25ad65 100%);
+    color: white;
+    font-size: var(--h3);
+    text-transform: uppercase;
+}
+
+.comment_confirm:hover {
+    background: -moz-linear-gradient( -90deg,    rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    background: -webkit-linear-gradient( -90deg, rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+    background: -ms-linear-gradient( -90deg,     rgb(255,144,0) 0%, rgb(249,105,14) 100%);
+}
+
+@media(max-width: 960px) {
+    .main-screen .form-block .options .option-outer {
+        width: calc(50% - 24px);
+    }
+
+    .form-block .options .option-outer {
+        display: flex; 
+        position: relative;
+        flex-grow: 1;
+        width: calc(50% - 24px);
+        height: auto;
+        cursor: pointer;
+    }
+
+    .form-block .options .option .info {
+        width: calc(100% - 24px);
+        padding: 16px 12px;
+        /* min-height: 72px; */
+    }
+
+    .reviews ul {
+        margin-top: 32px;
+        width: 100%;
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 24px;
+    }
+    .reviews ul li .date  {
+        grid-area: reviews__date ; 
+        text-align: right;
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-end;
+    
+    }
+    .reviews ul li {
+        height: auto;
+        border: 3px solid var(--color-1);
+        background-color: white;
+        border-radius: 8px;
+        padding: 24px;
+        display: grid;
+        grid-gap: 8px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 24px 16px 16px auto;
+        
+        grid-template-areas: 
+            "reviews__stars"
+            "reviews__name "
+            "reviews__date "
+            "reviews__text"
+        ;
+    } 
+
+    .reviews  .comment_form__wrapper form {
+        padding: 16px;
+       
+    }
+    
+
+
+}
+@media(max-width: 640px) {
+    .form-block .options .option .info {
+        width: calc(100% - 16px);
+        padding: 16px 8px;
+        /* min-height: 72px; */
+    }
+    .reviews ul li {
+        height: auto;
+        border: 3px solid var(--color-1);
+        background-color: white;
+        border-radius: 8px;
+        padding: 16px;
+        display: grid;
+        grid-gap: 8px;
+        grid-template-columns: 1fr;
+        grid-template-rows: 24px 16px 16px auto;
+        
+        grid-template-areas: 
+            "reviews__stars"
+            "reviews__name "
+            "reviews__date "
+            "reviews__text"
+        ;
+    } 
+}
+
+
+.reviews ul li .stars {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 160px;
+}
+.reviews ul li .stars img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    object-position: center;
+    margin-right: 4px;
+}
+
+footer {
+    margin-top: 64px;
+    width: 100%;
+    height: auto;
+    background: linear-gradient(-217deg, #222222, #646464);
+    padding-bottom: 32px;
+}
+
+footer * {
+    color: white;
+}
+
+
+@media(max-width: 960px) {
+    .main-screen .background .gradient .content img {
+        margin-top: 52vw;
+        width: 100%;
+        max-width: 100%;
+    }
+    .main-screen .info {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
+    }
+    .main-screen .info h1 {
+        padding-top: 8vw;
+    }
+    .main-screen .order-btn {
+        position: relative;
+        display: block;
+        margin: 8vw auto 0 auto;
+    }
+    /* Reviews rate */
+    .reviews-rate {
+        position: relative;
+        display: block;
+        background-color: #fff;
+        padding: 12px 48px;
+        border-radius: 8px;
+        margin-top: 78vw;
+    }
+
+    .
+}
+
+@media(max-width: 640px) {
+    .main-screen .background .gradient .content img {
+        margin-top: 66vw;
+        width: 100%;
+        max-width: 100%;
+    }
+    .main-screen .info {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        text-align: center;
+    }
+    .main-screen .info h1 {
+        padding-top: 8vw;
+    }
+    .main-screen .order-btn {
+        position: relative;
+        display: block;
+        margin: 8vw auto 0 auto;
+    }
+    .vcal-week span{
+        font-size: var(--h4) !important;
+        padding: 16px 0 !important;
+    }
+
+    .form-block .options .option .image {
+        height: 144px;
+    }
+    
+}
+
