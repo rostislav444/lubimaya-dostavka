@@ -27,7 +27,8 @@ SECRET_KEY = 'x##&&4%$)ako8w*y^f3t7q$v5n$q1qmp@ltkbe)5ejs2ityw4b'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'lyubimaya-dostavka.kiev.ua'
+    'lyubimaya-dostavka.kiev.ua',
+    '127.0.0.1'
 ]
 
 

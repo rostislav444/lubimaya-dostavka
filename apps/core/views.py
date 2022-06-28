@@ -5,8 +5,7 @@ from django.views.decorators.http import require_http_methods
 from django.template.loader import render_to_string
 import json
 from django.db.models import Avg
-import urllib.request
-import urllib.parse
+import requests
 
 def home(request):
     args = {}
@@ -30,15 +29,17 @@ def order(request):
     data = request.body.decode("utf-8")
     data = json.loads(json.loads(data))
     msg = '\n'.join(data)
-    msg = urllib.parse.quote(msg)
-    url = "https://api.telegram.org/bot1298743700:AAFKbVPDgPgG8aVO_gIPQ_1KRI6i6d9OhvY/sendMessage?chat_id=-1001304868389&text=" + msg
-    contents = urllib.request.urlopen(url).read() 
+    token = "5441075219:AAGkYgRGNXbMk0Bqa68wU_D7gIwfB2RW7Kk"
+    chat_id = "-1001582747453"
+    url = "https://api.telegram.org/bot"+token+"/sendMessage?chat_id="+chat_id+"&text=" + msg
+    requests.get(url)
     return JsonResponse({'order':'success', 'url':'/success/'})
 
 
 @require_http_methods(["POST"])
 def comment(request):
     data = request.POST
+
     comment = Comment(
         stars = data['rate'],
         name =  data['first_name'],
@@ -49,11 +50,14 @@ def comment(request):
     comment.save()
     commentHTML = render_to_string('comments/comment__object.html', {'comment':comment})
     
-    # TELEGRAM
-    # msg = comment_type + ': ' + variant.get_absolute_url() + '\n'
-    # msg += data['text']
-    # msg = urllib.parse.quote(msg)
-    # url = "https://api.telegram.org/bot817785032:AAG-Q3s8wRhyZbkoJScSPvE2XDrCVlgZKKA/sendMessage?chat_id=-1001490724377&text=" + msg
-    # contents = urllib.request.urlopen(url).read() 
-    # response = {'html' : commentHTML }
-    return JsonResponse(response)
+    msg = "Комментарий\n"
+    msg += "Оценка: " + str(comment.stars) + "\n"
+    msg += "Телефон: " + str(comment.phone) + "\n"
+    msg += "Услуга: " + str(comment.service) + "\n"
+    msg += "Текст: " + str(comment.text) + "\n"
+    
+    token = "5441075219:AAGkYgRGNXbMk0Bqa68wU_D7gIwfB2RW7Kk"
+    chat_id = "-1001582747453"
+    url = "https://api.telegram.org/bot"+token+"/sendMessage?chat_id="+chat_id+"&text=" + msg
+    requests.get(url)
+    return JsonResponse({'html' : commentHTML })
