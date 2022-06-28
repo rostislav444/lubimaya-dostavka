@@ -1,0 +1,12 @@
+{% load static %}
+{% if comments|length %}
+    <div class="reviews-rate__outer" onclick="showComments()">
+        <div class="reviews-rate__wrapper content">
+            <div class="reviews-rate">
+                <img  class="star ico"src="{% static 'img/ico/star.png' %}" alt="star">
+                <span class="rate">{{ comments_avg }}</span>
+                <span class="review-qty">отзвов: {{ comments|length }} </span>
+            </div>
+        </div>
+    </div>
+{% endif %}

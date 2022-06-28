@@ -5,9 +5,9 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 from django_cleanup import cleanup
 from project import settings
 from PIL import Image
-
+import io
 import os
-import shutil 
+import shutil
 import unidecode
 
 
@@ -16,10 +16,10 @@ def imageFilename(self, filename):
     app_name = self._meta.app_label
     model_name = self._meta.model_name
 
-    name_attrs = ['id'+str(self.pk)]
+    name_attrs = ['id' + str(self.pk)]
     name = ''
     parent = self
-    models_attrs = ['slug','code']
+    models_attrs = ['slug', 'code']
     while parent != None:
         for attr in models_attrs:
             if hasattr(parent, attr):
@@ -33,11 +33,10 @@ def imageFilename(self, filename):
             parent = None
     name = '_'.join(name_attrs)
     name = slugify(str(name))
-    
 
     # APP NAME PATH
     app_name_path = settings.MEDIA_ROOT + app_name + '/'
-    app_name_dir =   os.path.isdir(app_name_path)
+    app_name_dir = os.path.isdir(app_name_path)
     if app_name_dir == False:
         os.mkdir(app_name_path)
 
@@ -47,85 +46,80 @@ def imageFilename(self, filename):
     if model_name_dir == False:
         os.mkdir(model_name_path)
 
-    filename = '.'.join([name,ext])
-    path =  '/'.join([app_name, model_name, filename])
-    
+    filename = '.'.join([name, ext])
+    path = '/'.join([app_name, model_name, filename])
+
     return path
-
-
 
 
 # IMAGES
 @cleanup.ignore
 class Images(models.Model):
     # LARGE
-    image_l =       models.ImageField(upload_to=imageFilename, max_length=1000, blank=False, null=True, editable=True)
-    image_l_size =  models.CharField(max_length=1000, blank=True, editable=False)
-    image_l_url =   models.CharField(max_length=1000, blank=True, editable=False)
+    image_l = models.ImageField(upload_to=imageFilename, max_length=1000, blank=False, null=True, editable=True)
+    image_l_size = models.CharField(max_length=1000, blank=True, editable=False)
+    image_l_url = models.CharField(max_length=1000, blank=True, editable=False)
     # MEDIUM
-    image_m =       models.ImageField(blank=True, null=True, editable=False)
-    image_m_size  = models.CharField(max_length=1000, blank=True, editable=False)
-    image_m_url   = models.CharField(max_length=1000, blank=True, editable=False)
+    image_m = models.ImageField(blank=True, null=True, editable=False)
+    image_m_size = models.CharField(max_length=1000, blank=True, editable=False)
+    image_m_url = models.CharField(max_length=1000, blank=True, editable=False)
     # SMALL
-    image_s       = models.ImageField(blank=True, null=True, editable=False)
-    image_s_size  = models.CharField(max_length=1000, blank=True, editable=False)
-    image_s_url   = models.CharField(max_length=1000, blank=True, editable=False)
+    image_s = models.ImageField(blank=True, null=True, editable=False)
+    image_s_size = models.CharField(max_length=1000, blank=True, editable=False)
+    image_s_url = models.CharField(max_length=1000, blank=True, editable=False)
     # EXTRA SMALL
-    image_xs      = models.ImageField(blank=True, null=True, editable=False)
+    image_xs = models.ImageField(blank=True, null=True, editable=False)
     image_xs_size = models.CharField(max_length=1000, blank=True, editable=False)
-    image_xs_url  = models.CharField(max_length=1000, blank=True, editable=False)
+    image_xs_url = models.CharField(max_length=1000, blank=True, editable=False)
     # REGENERATE
     regen = models.BooleanField(default=False, editable=False)
-
-
 
     class Meta:
         abstract = True
 
-
     def save(self):
+        def get_filename(f_name, f_ext, key):
+            if key == 'l':
+                return f_name + '.' + f_ext
+            return f_name + '_' + key + '.' + f_ext
+
         if self.image_l.url != '/media/' + self.image_l_url or self.regen == True:
-            if self.regen == False:
-                try:os.remove(settings.MEDIA_ROOT + self.image_l_url)
-                except: pass
             super(Images, self).save()
-            sizes = {
-                'xs' : 128,
-                's'  : 480,
-                'm'  : 960,
-                'l'  : 1920,
-            }
-            fName = str(imageFilename(self, self.image_l.name))
-            fName = str(fName).split('.')
-            ext = fName[-1]
-            name = fName[0]
+            sizes = (
+                ('l', 1600),
+                ('m', 960),
+                ('s', 480),
+                ('xs', 128),
+            )
+
+            file_name = str(imageFilename(self, self.image_l.name))
+            file_name = str(file_name).split('.')
+            ext = file_name[-1]
+            name = file_name[0]
 
             # CREATE IMAGES
-            for key in sizes.keys():
-                img = Image.open(self.image_l._get_file())
-                x = sizes[key]
-                if key == 'l':
-                    filename =  name + '.' + ext
-                else:
-                    filename =  name + '_' + key + '.' + ext
-                    attr = getattr(self, 'image_' + key )
-                    setattr(attr, 'name', filename)
-                img.thumbnail((x, x), Image.ANTIALIAS)
+            for key, value in sizes:
+                img = Image.open(self.image_l.file)
+
+                filename = get_filename(name, ext, key)
+                attr = getattr(self, 'image_' + key)
+                setattr(attr, 'name', filename)
+                img.thumbnail((value, value), Image.ANTIALIAS)
                 setattr(self, 'image_' + key + '_size', str(img.size[0]) + 'x' + str(img.size[1]))
                 setattr(self, 'image_' + key + '_url', filename)
                 img.save(settings.MEDIA_ROOT + filename, quality=100)
-                img.close()
+            img.close()
         self.regen = False
         super(Images, self).save()
 
-
     def delete(self):
         print('DLETE')
-        for key in ['l','m','s','xs']:
+        for key in ['l', 'm', 's', 'xs']:
             path = getattr(self, 'image_' + key + '_url')
             try:
                 os.remove(settings.MEDIA_ROOT + path)
-            except: pass
+            except:
+                pass
         super(Images, self).delete()
 
 
@@ -151,7 +145,26 @@ class MainService(Images):
         self.slug = slugify(str(unidecode.unidecode(self.name)))
         super(MainService, self).save()
 
-   
+
+class PriceTable(models.Model):
+    CHOICES = (
+        ('грн.', 'грн.'),
+        ('грн. / шт.', 'грн. / шт.'),
+        ('грн. / куб', 'грн. / куб'),
+    )
+    name = models.CharField(max_length=255, verbose_name="Название услуги")
+    price = models.PositiveIntegerField(default=0, verbose_name="Цена")
+    unit = models.CharField(max_length=24, choices=CHOICES, verbose_name="Еденица имерения")
+    order = models.PositiveIntegerField(default=0, verbose_name="Порядок")
+    helptext = models.CharField(max_length=500, verbose_name="Пояснение", blank=True, null=True)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Цена за услугу"
+        verbose_name_plural = "Список цен"
+
+    def __str__(self):
+        return self.name
 
 
 class ServiceGroup(models.Model):
@@ -190,16 +203,15 @@ class Service(Images):
     def __str__(self):
         return self.name
 
-    
 
 class Comment(models.Model):
-    stars =    models.PositiveIntegerField(blank=True, validators=[MinValueValidator(1), MaxValueValidator(5)])
-    name =     models.CharField(max_length=255, blank=False, verbose_name="Имя клиента")
-    phone =    models.CharField(max_length=255, blank=False, verbose_name="Номер телефона")
-    service =  models.ForeignKey(MainService, on_delete=models.CASCADE, verbose_name="Оказанная услуга")
-    text =     models.TextField(verbose_name="Комментарий")
-    checked =  models.BooleanField(default=False)
-    datetime = models.DateTimeField(default = now, blank=True, editable=False)
+    stars = models.PositiveIntegerField(blank=True, validators=[MinValueValidator(1), MaxValueValidator(5)])
+    name = models.CharField(max_length=255, blank=False, verbose_name="Имя клиента")
+    phone = models.CharField(max_length=255, blank=False, verbose_name="Номер телефона")
+    service = models.ForeignKey(MainService, on_delete=models.CASCADE, verbose_name="Оказанная услуга")
+    text = models.TextField(verbose_name="Комментарий")
+    checked = models.BooleanField(default=False)
+    datetime = models.DateTimeField(default=now, blank=True, editable=False)
 
     class Meta:
         ordering = ['-datetime']
@@ -210,16 +222,16 @@ class Comment(models.Model):
         stars = [
             "Ужасно", "Плохо", "Нормально", "Хорошо", "Отлично"
         ]
-        return f"{self.datetime.strftime('%H:%M %d/%m/%Y')} | оценка: {stars[self.stars - 1]} | {self.name} | { self.service.name }"
-    
+        return f"{self.datetime.strftime('%H:%M %d/%m/%Y')} | оценка: {stars[self.stars - 1]} | {self.name} | {self.service.name}"
+
     def save(self):
-        symbols = ['@','http','https','www']
+        symbols = ['@', 'http', 'https', 'www']
         if not any(ext in self.text for ext in symbols):
             super(Comment, self).save()
 
     def rating(self):
         stars = []
-        for i in range(0,5):
+        for i in range(0, 5):
             if i >= int(self.stars):
                 stars.append(1)
             else:
@@ -227,9 +239,5 @@ class Comment(models.Model):
         return stars
 
 
-      
-
-
 class CommentImages(Images):
-    parent =  models.ForeignKey(Comment, on_delete=models.CASCADE, verbose_name="Фото", related_name='images')
-
+    parent = models.ForeignKey(Comment, on_delete=models.CASCADE, verbose_name="Фото", related_name='images')

@@ -1,0 +1,27 @@
+<div class="price_table content">
+    <p class="title h2 bold upper center">Прайслист</p>
+    <div class="table_wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Услуга</th>
+                    <th>Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for service in price_table %}
+                    <tr>
+                        <td>{{ service.name }}</td>
+                        <td>{{ service.price }}&nbsp;{{ service.unit }}</td>
+                    </tr>
+                    {% if service.helptext %}
+                        <tr class="helptext">
+                            <td colspan="2">{{ service.helptext }}</td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>

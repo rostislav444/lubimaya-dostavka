@@ -12,6 +12,7 @@ def home(request):
     args = {}
     args['main_service'] = MainService.objects.all()
     args['service_group'] = ServiceGroup.objects.all()
+    args['price_table'] = PriceTable.objects.all()
     args['comments'] = Comment.objects.all()
     if len(args['comments']) > 0:
         args['comments_avg'] = round(list(args['comments'].aggregate(Avg('stars')).values())[0], 1)

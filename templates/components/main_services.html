@@ -1,0 +1,23 @@
+<div id="main_services_block" class="input-wrapper form-block mt80" data-empty=true data-requirder=true data-type="radio" data-name="Услуга" data-alert="Выберите тип услуги">
+    <div class="content">
+        <p class="title h1 bold upper center">Что Вы планируете делать?</p>
+        <p class="subtitle h3 bold upper center color-1 mt8 pb32">Выберите тип услуги котрый Вас интреесует</p>
+        <span class="alert"></span>
+        <div class="options mt32">
+            {% for service in main_service %}
+            <label for="main_{{ service.id }}" class="option-outer">
+                <input id="main_{{ service.id }}" name="main" type="radio" data-name="{{ service.name }}">
+                <div class="option">
+                    <div class="image">
+                        <img src="{{ service.image_l.url }}" alt="{{ service.slug }}">
+                    </div>
+                    <div class="info">
+                        <p class="title">{{ service.name }}</p>
+                    </div>
+                </div>
+                <div class="round-checkbox"></div>
+            </label>
+            {% endfor %}
+        </div>
+    </div>
+</div>

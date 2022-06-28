@@ -48,3 +48,10 @@ class ServiceGroupAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     pass
+
+
+@admin.register(PriceTable)
+class PriceTabletAdmin(admin.ModelAdmin):
+    list_display = ['name', 'price', 'unit', 'order']
+    list_editable = ['price', 'unit', 'order']
+

@@ -26,7 +26,9 @@ SECRET_KEY = 'x##&&4%$)ako8w*y^f3t7q$v5n$q1qmp@ltkbe)5ejs2ityw4b'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'lyubimaya-dostavka.kiev.ua'
+]
 
 
 # Application definition
